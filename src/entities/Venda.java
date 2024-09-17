@@ -11,17 +11,18 @@ public class Venda {
     private int id;
     private Cliente cliente;
     private List<Pedido> pedidos;
-    private LocalDate data;
+    private LocalDate dataVenda;
     private double valorTotal;
 
     public Venda() {
     }
 
-    public Venda(int id, Cliente cliente) {
+    public Venda(int id, Cliente cliente, LocalDate dataVenda) {
         this.id = id;
         this.cliente = cliente;
         this.pedidos = new ArrayList<>();
         this.valorTotal = 0.0;
+        this.dataVenda = dataVenda;
     }
 
     public int getId() {
@@ -48,12 +49,12 @@ public class Venda {
         this.pedidos = pedidos;
     }
 
-    public LocalDate getData() {
-        return data;
+    public LocalDate getDataVenda() {
+        return dataVenda;
     }
 
-    public void setData(LocalDate data) {
-        this.data = data;
+    public void setDataVenda(LocalDate dataVenda) {
+        this.dataVenda = dataVenda;
     }
 
     public double getValorTotal() {

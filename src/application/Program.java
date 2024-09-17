@@ -1,10 +1,8 @@
 package application;
 
-import entities.Cliente;
-import entities.Pedido;
-import entities.Produto;
-import entities.Venda;
+import entities.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,32 +11,45 @@ public class Program {
 
     public static void main(String[] args) {
 
-        List<Produto> produtos = new ArrayList<>();
-        List<Cliente> clientes = new ArrayList<>();
+        Cliente cliente1 = new Cliente(1, "Mateus", "mateus@gmail.com");
+        Cliente cliente2 = new Cliente(2, "Eliza", "eliza@gmail.com");
+
+        Produto produto1 = new Produto(1, "Café", 10.0, 50);
+        Produto produto2 = new Produto(2, "Leite", 5.0, 30);
+
+        Pedido pedido1 = new Pedido(produto1, 2);
+        Pedido pedido2 = new Pedido(produto2, 3);
+
+        Pedido pedido3 = new Pedido(produto1, 1);
+        Pedido pedido4 = new Pedido(produto2, 2);
+
+        Venda venda1 = new Venda(1, cliente1, LocalDate.of(2024, 9, 15));
+        venda1.adicionarPedido(produto1, 3);
+        venda1.adicionarPedido(produto2, 4);
+        venda1.calcularValorTotal();
+
+        Venda venda2 = new Venda(2, cliente2, LocalDate.of(2024, 9, 16));
+        venda2.adicionarPedido(produto1, 7);
+        venda2.adicionarPedido(produto2, 12);
+        venda2.calcularValorTotal();
+
         List<Venda> vendas = new ArrayList<>();
+        vendas.add(venda1);
+        vendas.add(venda2);
 
-        produtos.add(new Produto(1, "Notebook Dell", 3000.00, 5));
-        produtos.add(new Produto(2, "Notebook Acer", 2000.00, 7));
-        produtos.add(new Produto(2, "Notebook Lenovo", 1000.00, 10));
+        RelatorioVendas relatorio = new RelatorioVendas();
 
-        clientes.add(new Cliente(1, "Mateus", "mateus@gmail.com"));
+        System.out.println("======= RELATÓRIO POR CLIENTE =======");
+        relatorio.gerarRelatorioPorCliente(vendas);
 
-        Cliente cliente = clientes.get(0); // João
-        Venda venda = new Venda(1, cliente);
-        venda.adicionarPedido(produtos.get(0),1);
-        venda.adicionarPedido(produtos.get(1), 2);
+        System.out.println("\n======= RELATÓRIO POR PRODUTO =======");
+        relatorio.gerarRelatorioPorProduto(vendas);
 
-        venda.calcularValorTotal();
-        vendas.add(venda);
-
-        System.out.println("Venda realizada por: " + venda.getCliente().getNome());
-        System.out.println("Itens comprados:");
-        venda.getPedidos().forEach(p -> System.out.println(p.getProduto().getNome() + " - Quantidade: " +p.getQuantidade()));
-        System.out.println("Valor total: R$" + venda.getValorTotal());
-
-        System.out.println("\nEstoque atualizado:");
-        for (Produto produto : produtos) {
-            System.out.println(produto.getNome() + " - Estoque: " + produto.getQuantidadeEmEstoque());
-        }
+        System.out.println("\n======= RELATÓRIO POR PERÍODO =======");
+        LocalDate dataInicio = LocalDate.of(2024, 9, 14);
+        LocalDate dataFim = LocalDate.of(2024, 9, 16);
+        relatorio.gerarRelatotioPorPeriodo(vendas, dataInicio, dataFim);
     }
+
 }
+
