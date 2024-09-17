@@ -14,12 +14,11 @@ public class Venda {
     public Venda() {
     }
 
-    public Venda(int id, Cliente cliente, List<Pedido> pedidos, LocalDate data, double valorTotal) {
+    public Venda(int id, Cliente cliente, List<Pedido> pedidos) {
         this.id = id;
         this.cliente = cliente;
         this.pedidos = pedidos;
-        this.data = data;
-        this.valorTotal = valorTotal;
+        this.valorTotal = 0.0;
     }
 
     public int getId() {
@@ -63,6 +62,9 @@ public class Venda {
     }
 
     public void calcularValorTotal() {
-        valorTotal = pedidos.stream().mapToDouble(Pedido::calcularPrecoTotal).sum();
+        valorTotal = 0.0;
+        for (Pedido pedido : pedidos) {
+            valorTotal += pedido.calcularPrecoTotal();
+        }
     }
 }
