@@ -1,5 +1,7 @@
 package entities;
 
+import exception.EstoqueInsuficienteException;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -67,4 +69,42 @@ public class Venda {
             valorTotal += pedido.calcularPrecoTotal();
         }
     }
+
+    public void atualizarEstoque() throws EstoqueInsuficienteException {
+        for (Pedido pedido : pedidos) {
+            Produto produto = pedido.getProduto();
+            int quantidadeVendida = pedido.getQuantidade();
+            produto.reduzirEstoque(quantidadeVendida);
+        }
+    }
+
+    public boolean verificarEstoque() {
+        for (Pedido pedido : pedidos) {
+            Produto produto = pedido.getProduto();
+            int quantidadeVendida = pedido.getQuantidade();
+            if (quantidadeVendida > produto.getQuantidadeEmEstoque()) {
+                System.out.println("Estoque insuficiente para o produto: " + produto.getNome());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean concluirVenda() {
+        try {
+            if (verificarEstoque()) {
+                calcularValorTotal();
+                atualizarEstoque();
+                System.out.println("Venda concluída com sucesso!");
+                return true;
+            } else {
+                System.out.println("Venda não realizada devido a estoque insuficiente!");
+                return false;
+            }
+        } catch (EstoqueInsuficienteException e) {
+            System.out.println("Erro ao atualizar o estoque: " + e.getMessage());
+            return false;
+        }
+    }
+
 }

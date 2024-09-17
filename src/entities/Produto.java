@@ -1,5 +1,7 @@
 package entities;
 
+import exception.EstoqueInsuficienteException;
+
 public class Produto {
 
     private int id;
@@ -47,5 +49,13 @@ public class Produto {
 
     public void setQuantidadeEmEstoque(int quantidadeEmEstoque) {
         this.quantidadeEmEstoque = quantidadeEmEstoque;
+    }
+
+    public void reduzirEstoque(int quantidade) throws EstoqueInsuficienteException{
+        if (quantidade <= quantidadeEmEstoque) {
+            quantidadeEmEstoque -= quantidade;
+        } else {
+            throw new EstoqueInsuficienteException("Estoque insuficiente para o produto: " + nome);
+        }
     }
 }
