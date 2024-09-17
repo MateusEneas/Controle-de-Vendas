@@ -2,6 +2,8 @@ package entities;
 
 import exception.EstoqueInsuficienteException;
 
+import java.util.List;
+
 public class Produto {
 
     private int id;
@@ -58,4 +60,5 @@ public class Produto {
             throw new EstoqueInsuficienteException("Estoque insuficiente para o produto: " + nome);
         }
     }
+
 }

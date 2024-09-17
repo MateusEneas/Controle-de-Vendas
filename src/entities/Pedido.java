@@ -1,11 +1,13 @@
 package entities;
 
+import java.util.ArrayList;
+
 public class Pedido {
 
     private Produto produto;
     private int quantidade;
 
-    public Pedido() {
+    public Pedido(ArrayList<Produto> produtos, int quantidade) {
     }
 
     public Pedido(Produto produto, int quantidade) {

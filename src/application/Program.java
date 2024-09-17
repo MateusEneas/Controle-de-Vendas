@@ -7,38 +7,38 @@ import entities.Venda;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Program {
 
     public static void main(String[] args) {
 
-        Cliente cliente = new Cliente(1, "Mateus", "mateus@gmail.com");
+        List<Produto> produtos = new ArrayList<>();
+        List<Cliente> clientes = new ArrayList<>();
+        List<Venda> vendas = new ArrayList<>();
 
-        Produto produto = new Produto(1, "Notebook Dell", 3000.00, 5);
-        Produto produto2 = new Produto(2, "Notebook Acer", 2000.00, 7);
-        Produto produto3 = new Produto(2, "Notebook Lenovo", 1000.00, 10);
+        produtos.add(new Produto(1, "Notebook Dell", 3000.00, 5));
+        produtos.add(new Produto(2, "Notebook Acer", 2000.00, 7));
+        produtos.add(new Produto(2, "Notebook Lenovo", 1000.00, 10));
 
-        Pedido pedido = new Pedido(produto, 3);
-        Pedido pedido2 = new Pedido(produto2, 2);
-        Pedido pedido3 = new Pedido(produto3, 0);
+        clientes.add(new Cliente(1, "Mateus", "mateus@gmail.com"));
 
-        List<Pedido> pedidos = new ArrayList<>();
-        pedidos.add(pedido);
-        pedidos.add(pedido2);
-        pedidos.add(pedido3);
+        Cliente cliente = clientes.get(0); // João
+        Venda venda = new Venda(1, cliente);
+        venda.adicionarPedido(produtos.get(0),1);
+        venda.adicionarPedido(produtos.get(1), 2);
 
-        Venda venda = new Venda(1,cliente,pedidos);
-        boolean vendaConcluida = venda.concluirVenda();
         venda.calcularValorTotal();
+        vendas.add(venda);
 
-        if (vendaConcluida) {
-            System.out.println("Valor total da venda: R$" + venda.getValorTotal());
-            System.out.println("Estoque após a venda: ");
+        System.out.println("Venda realizada por: " + venda.getCliente().getNome());
+        System.out.println("Itens comprados:");
+        venda.getPedidos().forEach(p -> System.out.println(p.getProduto().getNome() + " - Quantidade: " +p.getQuantidade()));
+        System.out.println("Valor total: R$" + venda.getValorTotal());
+
+        System.out.println("\nEstoque atualizado:");
+        for (Produto produto : produtos) {
             System.out.println(produto.getNome() + " - Estoque: " + produto.getQuantidadeEmEstoque());
-            System.out.println(produto2.getNome() + " - Estoque: " + produto2.getQuantidadeEmEstoque());
-            System.out.println(produto3.getNome() + " - Estoque: " + produto3.getQuantidadeEmEstoque());
-        } else {
-            System.out.println("A venda não pôde ser concluída!");
         }
     }
 }

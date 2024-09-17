@@ -3,6 +3,7 @@ package entities;
 import exception.EstoqueInsuficienteException;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Venda {
@@ -16,10 +17,10 @@ public class Venda {
     public Venda() {
     }
 
-    public Venda(int id, Cliente cliente, List<Pedido> pedidos) {
+    public Venda(int id, Cliente cliente) {
         this.id = id;
         this.cliente = cliente;
-        this.pedidos = pedidos;
+        this.pedidos = new ArrayList<>();
         this.valorTotal = 0.0;
     }
 
@@ -88,6 +89,12 @@ public class Venda {
             }
         }
         return true;
+    }
+
+    public void adicionarPedido(Produto produto, int quantidade) {
+        Pedido pedido = new Pedido(produto, quantidade);
+        pedidos.add(pedido);
+        produto.setQuantidadeEmEstoque(produto.getQuantidadeEmEstoque() - quantidade);
     }
 
     public boolean concluirVenda() {
